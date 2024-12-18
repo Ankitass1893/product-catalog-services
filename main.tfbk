@@ -1,0 +1,47 @@
+terraform {
+  required_version = ">= 1.0.0" # Ensure that the Terraform version is 1.0.0 or higher
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws" # Specify the source of the AWS provider
+      version = "~> 4.0"        # Use a version of the AWS provider that is compatible with version
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-southeast-1" # Set the AWS region to US East (N. Virginia)
+}
+
+resource "aws_instance" "instance1" {
+  ami           = "ami-0a312809c022a69d1"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "demolox" # Tag the instance with a Name tag for easier identification
+  }
+  key_name = "demo2"
+}
+
+resource "aws_db_instance" "default" {
+  allocated_storage = 10
+  engine = "mysql"
+  instance_class = "db.t3.micro"
+  engine_version    = "8.4"
+  identifier = "mylox"
+  username          = "ankitass"
+  password          = "ankitass"
+
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  db_subnet_group_name   = aws_db_subnet_group.my_db_subnet_group.name
+
+  skip_final_snapshot = true
+}
+
+resource "aws_db_subnet_group" "my_db_subnet_group" {
+  name       = "my-db-subnet-grouplox"
+  subnet_ids = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+
+  tags = {
+    Name = "My DB Subnet Group"
+  }
+}
