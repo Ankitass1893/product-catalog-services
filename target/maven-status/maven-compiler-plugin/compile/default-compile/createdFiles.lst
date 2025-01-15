@@ -1,0 +1,7 @@
+com\secor\product\ProductRepository.class
+com\secor\product\Product.class
+com\secor\product\ProductController.class
+com\secor\product\ResourceNotFoundException.class
+com\secor\product\ProductService.class
+com\secor\product\ProductApplication.class
+com\secor\product\Response.class
